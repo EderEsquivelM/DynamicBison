@@ -6,6 +6,9 @@
 #
 # Proyecto PERT para el diseño y lanzamiento al mercado de un nuevo 
 # modelo de vehículo eléctrico (Caso 12)
+#
+# Declaro que este código es de mi autoría y ha sido desarrollado
+# bajo los criterios de integridad académica de la FCFM
 # =================================================================
 
 import pandas as pd        # Manejo de tablas y DataFrames
