@@ -3,24 +3,27 @@ import numpy as np
 import networkx as nx
 from scipy.stats import norm
 
-# Definición de Datos
 # Tiempos en semanas: a (optimista), m (probable), b (pesimista)
 actividades = {
-    'ID': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'],
-    'Predecesoras': [[], ['A'], ['A'], ['A'], ['B', 'C'], ['D', 'E'], ['F'], ['G'], ['E'], ['H', 'I'], ['J']],
-    'a': [12, 40, 24, 16, 30, 12, 8, 6, 52, 10, 8],
-    'm': [20, 52, 36, 24, 45, 20, 12, 8, 70, 16, 12],
-    'b': [40, 80, 60, 45, 70, 35, 24, 16, 110, 28, 20]
+    'A': {'pred': [], 'a': 12, 'm': 20, 'b': 40},
+    'B': {'pred': ['A'], 'a': 40, 'm': 52, 'b': 80},
+    'C': {'pred': ['A'], 'a': 24, 'm': 36, 'b': 60},
+    'D': {'pred': ['A'], 'a': 16, 'm': 24, 'b': 45},
+    'E': {'pred': ['B', 'C'], 'a': 30, 'm': 45, 'b': 70},
+    'F': {'pred': ['D', 'E'], 'a': 12, 'm': 20, 'b': 35},
+    'G': {'pred': ['F'], 'a': 8, 'm': 12, 'b': 24},
+    'H': {'pred': ['G'], 'a': 6, 'm': 8, 'b': 16},
+    'I': {'pred': ['E'], 'a': 52, 'm': 70, 'b': 110},
+    'J': {'pred': ['H', 'I'], 'a': 10, 'm': 16, 'b': 28},
+    'K': {'pred': ['J'], 'a': 8, 'm': 12, 'b': 20}
 }
 
-df = pd.DataFrame(actividades)
-
-# Cálculos
-# Tiempo Esperado (te) y Varianza (var)
-df['te'] = (df['a'] + 4*df['m'] + df['b']) / 6
-df['var'] = ((df['b'] - df['a']) / 6)**2
-
-print("--- Tabla de Tiempos Esperados ---")
-print(df[['ID', 'te', 'var']].round(2))
-
+# Tiempos esperados y varianza
+for act, datos in actividades.items():
+    a, m, b = datos['a'], datos['m'], datos['b']
+    te = (a + 4*m + b) / 6
+    var = ((b - a) / 6)**2
+    actividades[act]['te'] = te
+    actividades[act]['var'] = var
+    print(f"Actividad {act}: te = {te:.2f} sem, var = {var:.2f}")
 
